@@ -57,7 +57,7 @@ server.use(statusRouter.routes())
 server.use(statusRouter.allowedMethods())
 
 app.use(mount('/api', server)) // You will access the server app from here
-app.use(mount('/client', client)) // You will access the client app from here
+app.use(mount('/', client)) // You will access the client app from here
 
 if (!module.parent) {
   app.listen(config.port)
