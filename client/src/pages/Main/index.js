@@ -1,26 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import CrudAppBar from '../../Components/AppBar'
+import { Context } from '../../intl/IntlProvider'
 
-const styles = (theme) => ({
-  root: {
-    zIndex: 1102,
-    boxShadow: 'none',
-  },
-})
-
-const MainPage = ({ message, error, classes }) => {
-  return (
-    <div>
-      {/* <p>{message}</p> */}
-      <p>Main</p>
-      {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
-    </div>
-  )
+const root = {
+  height: '100vh',
+  margin: 0,
+  padding: 0,
+  background: 'rgb(140,172,172)',
+  background:
+    'linear-gradient(90deg, rgba(140,172,172,1) 0%, rgba(175,140,157,1) 100%)',
 }
 
-MainPage.propTypes = {
-  message: PropTypes.string,
-  error: PropTypes.object,
+const MainPage = () => {
+  const context = useContext(Context)
+  const lang = context.languageSelected
+
+  return (
+    <div style={root}>
+      <CrudAppBar name={'header.title'} languageSelected={lang} />
+    </div>
+  )
 }
 
 export default MainPage

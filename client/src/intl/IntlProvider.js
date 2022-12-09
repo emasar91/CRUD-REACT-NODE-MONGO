@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState } from 'react'
 import { IntlProvider as I18nProvider } from 'react-intl'
 
 // Lang sheets
@@ -25,20 +25,30 @@ const flattenMessages = (nestedMessages, prefix = '') => {
 }
 
 const messages = {
-  en: en,
-  es: es,
-  pt: pt,
+  EN: en,
+  ES: es,
+  PT: pt,
 }
+
+export const Context = createContext()
 const IntlProvider = ({ children }) => {
-  const language = localStorage.getItem('lang') || 'es'
+  const languageDefault = localStorage.getItem('lang') || 'ES'
+  const [languageSelected, setLanguageSelected] = useState(languageDefault)
+
+  const handleChangeLanguage = (lang) => {
+    setLanguageSelected(lang)
+    localStorage.setItem('lang', lang)
+  }
 
   return (
-    <I18nProvider
-      locale={language}
-      messages={flattenMessages(messages[language])}
-    >
-      {children}
-    </I18nProvider>
+    <Context.Provider value={{ handleChangeLanguage, languageSelected }}>
+      <I18nProvider
+        locale={languageSelected}
+        messages={flattenMessages(messages[languageSelected])}
+      >
+        {children}
+      </I18nProvider>
+    </Context.Provider>
   )
 }
 export default IntlProvider

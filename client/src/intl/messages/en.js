@@ -1,5 +1,5 @@
 export default {
   header: {
-    title: 'CRUD',
+    title: 'CRUD en',
   },
 }
