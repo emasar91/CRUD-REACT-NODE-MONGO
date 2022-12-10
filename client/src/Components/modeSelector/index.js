@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { styled } from '@mui/material/styles'
-import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
+import { AppContext } from '../../context/appContext'
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -27,7 +27,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
   },
   '& .MuiSwitch-thumb': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+    backgroundColor: theme.palette.mode === 'dark' ? '#001e3c' : '#003892',
     width: 32,
     height: 32,
     '&:before': {
@@ -52,12 +52,17 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }))
 
 export default function CustomizedSwitches() {
+  const { darkMode, toggleDarkMode } = useContext(AppContext)
+
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
-        label='MUI switch'
-      />
-    </FormGroup>
+    <FormControlLabel
+      control={
+        <MaterialUISwitch
+          sx={{ m: 1 }}
+          checked={darkMode}
+          onChange={() => toggleDarkMode()}
+        />
+      }
+    />
   )
 }

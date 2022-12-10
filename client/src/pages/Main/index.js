@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import CrudAppBar from '../../Components/AppBar'
-import { Context } from '../../intl/IntlProvider'
+import { AppContext } from '../../context/appContext'
 
 const root = {
   height: '100vh',
@@ -11,8 +11,7 @@ const root = {
 }
 
 const MainPage = () => {
-  const context = useContext(Context)
-  const lang = context.languageSelected
+  const { languageSelected: lang } = useContext(AppContext)
 
   return (
     <div style={root}>

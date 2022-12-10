@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import EN from '../../assets/icons/EN.png'
 import ES from '../../assets/icons/ES.png'
 import PT from '../../assets/icons/PT.png'
-import { Context } from '../../intl/IntlProvider'
+import { AppContext } from '../../context/appContext'
 
 const styles = {
   flag: {
@@ -21,7 +21,8 @@ const styles = {
 }
 
 const LanguageSelector = ({ languageSelected }) => {
-  const context = useContext(Context)
+  const { handleChangeLanguage: contextHandleChangeLanguage } =
+    useContext(AppContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -37,7 +38,7 @@ const LanguageSelector = ({ languageSelected }) => {
 
   const handleChangeLanguage = (lang) => {
     localStorage.setItem('lang', lang)
-    context.handleChangeLanguage(lang)
+    contextHandleChangeLanguage(lang)
     handleClose()
   }
 
