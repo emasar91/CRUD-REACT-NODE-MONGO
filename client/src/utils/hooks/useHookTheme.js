@@ -10,6 +10,11 @@ const useHookTheme = (darkMode) => {
       secondary: {
         main: '#ffff00',
       },
+      background: {
+        app: darkMode
+          ? 'linear-gradient(90deg, #380036 0%, #0CBABA 100%)'
+          : 'linear-gradient(90deg, #0D324D 0%, #7F5A83 100%)',
+      },
       success: {
         main: '#ff00ff',
       },
