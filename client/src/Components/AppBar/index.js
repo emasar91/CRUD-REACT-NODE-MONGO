@@ -9,6 +9,7 @@ import Button from '@mui/material/Button'
 
 import LanguageSelector from '../languageSelector'
 import { FormattedMessage } from 'react-intl'
+import CustomizedSwitches from '../modeSelector'
 
 const CrudAppBar = ({ name, languageSelected }) => {
   return (
@@ -19,6 +20,7 @@ const CrudAppBar = ({ name, languageSelected }) => {
             <FormattedMessage id={name} />
           </Typography>
           <Button color='inherit'>Login</Button>
+          <CustomizedSwitches />
           <LanguageSelector languageSelected={languageSelected} />
         </Toolbar>
       </AppBar>

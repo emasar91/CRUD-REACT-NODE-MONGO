@@ -35,7 +35,7 @@ const LanguageSelector = ({ languageSelected }) => {
   const languagesOptions = ['ES', 'EN', 'PT']
   const languageIcons = { EN, ES, PT }
 
-  const handleChangeLanguage = (event, lang) => {
+  const handleChangeLanguage = (lang) => {
     localStorage.setItem('lang', lang)
     context.handleChangeLanguage(lang)
     handleClose()
@@ -56,10 +56,14 @@ const LanguageSelector = ({ languageSelected }) => {
           return (
             <MenuItem
               key={language}
-              onClick={(event) => handleChangeLanguage(event, language)}
+              onClick={() => handleChangeLanguage(language)}
             >
               <span style={styles.flagContainer}>
-                <img style={styles.flag} src={languageIcons[language]}></img>
+                <img
+                  style={styles.flag}
+                  src={languageIcons[language]}
+                  alt={language}
+                ></img>
               </span>
               <span style={styles.language}>{language}</span>
             </MenuItem>

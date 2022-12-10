@@ -1,14 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const styles = (theme) => ({
-  root: {
-    zIndex: 1102,
-    boxShadow: 'none',
-  },
-})
-
-const ErrorPage = ({ message, error, classes }) => {
+const ErrorPage = ({ message, error }) => {
   return (
     <div>
       <p>{message}</p>

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import CrudAppBar from '../../Components/AppBar'
 import { Context } from '../../intl/IntlProvider'
 
@@ -7,7 +6,6 @@ const root = {
   height: '100vh',
   margin: 0,
   padding: 0,
-  background: 'rgb(140,172,172)',
   background:
     'linear-gradient(90deg, rgba(140,172,172,1) 0%, rgba(175,140,157,1) 100%)',
 }
