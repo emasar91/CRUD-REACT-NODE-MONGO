@@ -8,7 +8,7 @@ module.exports = async function createCard(data) {
   return {
     body: {
       status: 'created',
-      pokemon: { name: response.name, id: response._id },
+      card: { name: response.name, id: response._id },
     },
     status: 201,
   }
