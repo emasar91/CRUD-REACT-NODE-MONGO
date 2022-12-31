@@ -63,6 +63,7 @@ const LanguageSelector = ({ languageSelected }) => {
           return (
             <Tooltip
               title={<FormattedMessage id={`header.lang.${language}`} />}
+              key={language}
               placement='left'
               arrow
             >
