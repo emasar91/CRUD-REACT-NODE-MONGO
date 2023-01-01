@@ -10,15 +10,18 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
 import { Box, Paper } from '@mui/material'
+import Spinner from '../spinner'
+import { FormattedMessage } from 'react-intl'
 
 //utils
-import idPrettier from '../../utils/idPrettier'
-import truncate from '../../utils/hooks/ellipsis'
+import truncate from '../../utils/ellipsis'
 import ActionsButtons from './actionsButtons'
+import { getValueCell } from './utilsCard'
+
+//hooks
+import useGetSpinner from '../../utils/hooks/useGetSpinner'
 
 const Cards = ({ data, isLoading }) => {
-  console.log('🚀 ~ file: index.js:14 ~ Cards ~ data', data)
-
   const style = (theme) => ({
     root: {
       minHeight: ' 93vh',
@@ -26,7 +29,7 @@ const Cards = ({ data, isLoading }) => {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    paper: { maxHeight: 500, padding: 2.5, overflowY: 'auto' },
+    paper: { maxHeight: 500, padding: 2.5, overflowY: 'auto', minWidth: 970 },
     tableContainer: {
       height: 495,
 
@@ -45,56 +48,71 @@ const Cards = ({ data, isLoading }) => {
     },
   })
 
+  const showSpinner = useGetSpinner(isLoading)
+
   const columns = [
-    { id: '_id', label: 'ID', width: 55, align: 'center' },
-    { id: 'name', label: 'Product', width: 170, align: 'center' },
-    { id: 'createdAt', label: 'Created Date', align: 'center', width: 100 },
     {
-      id: 'updatedAt',
-      label: 'Updated Date',
+      id: '_id',
+      label: <FormattedMessage id={`body.table.rows.id`} />,
+      width: 45,
       align: 'center',
-      width: 170,
     },
     {
-      id: 'description',
-      label: 'Description',
-      width: 170,
+      id: 'name',
+      label: <FormattedMessage id={`body.table.rows.product`} />,
+      width: 120,
       align: 'center',
-      format: (value) => value.toLocaleString('en-US'),
+      limit: 14,
+    },
+    {
+      id: 'createdAt',
+      label: <FormattedMessage id={`body.table.rows.createdDate.label`} />,
+      align: 'center',
+      width: 80,
+    },
+    {
+      id: 'updatedAt',
+      label: <FormattedMessage id={`body.table.rows.updateDate.label`} />,
+      align: 'center',
+      width: 80,
     },
     {
       id: 'category',
-      label: 'Category',
-      width: 170,
+      label: <FormattedMessage id={`body.table.rows.category`} />,
+      width: 120,
       align: 'center',
       format: (value) => value.toLocaleString('en-US'),
     },
-
+    {
+      id: 'description',
+      label: <FormattedMessage id={`body.table.rows.description`} />,
+      width: 200,
+      align: 'center',
+      limit: 29,
+      format: (value) => value.toLocaleString('en-US'),
+    },
     {
       id: 'buttons',
-      label: 'Actions',
-      minWidth: 65,
+      label: <FormattedMessage id={`body.table.rows.actions`} />,
+      minWidth: 55,
       align: 'center',
     },
   ]
 
-  const getValueCell = (data, cell) => {
-    if (cell.id === '_id') {
-      return idPrettier(data[cell.id])
-    } else if (cell.id === 'category') {
-      return data[cell.id].name
-    } else {
-      return data[cell.id]
-    }
-  }
-
-  const showDataCell = (data, cell) => {
-    if (cell.id === 'buttons') {
+  /**
+   * @param data value corresponding to the cell
+   * @param column data from column to be displayed
+   * @returns the element with the formatted value
+   */
+  const showDataCell = (data, column) => {
+    if (column.id === 'buttons') {
       return <ActionsButtons />
+    } else if (column.id === 'createdAt' || column.id === 'updatedAt') {
+      return <span>{new Date(data).toLocaleDateString()}</span>
     } else if (data.length >= 20) {
       return (
         <Tooltip title={data} arrow>
-          <span>{truncate(data)}</span>
+          <span>{truncate(data, column.limit)}</span>
         </Tooltip>
       )
     } else {
@@ -102,43 +120,45 @@ const Cards = ({ data, isLoading }) => {
     }
   }
 
-  return isLoading ? (
-    <span>cargando</span>
-  ) : (
+  return (
     <Box sx={(theme) => style(theme).root}>
       <Paper sx={(theme) => style(theme).paper}>
         <TableContainer sx={(theme) => style(theme).tableContainer}>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth, textAlign: 'center' }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.map((row) => {
-                return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={row._id}>
-                    {columns.map((column) => {
-                      const value = getValueCell(row, column)
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {showDataCell(value, column)}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+          {showSpinner ? (
+            <Spinner />
+          ) : (
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ width: column.width, textAlign: column.align }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.map((row) => {
+                  return (
+                    <TableRow hover role='checkbox' tabIndex={-1} key={row._id}>
+                      {columns.map((column) => {
+                        const value = getValueCell(row, column)
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {showDataCell(value, column)}
+                          </TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          )}
         </TableContainer>
       </Paper>
     </Box>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
+import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import EN from '../../assets/icons/EN.png'
@@ -28,6 +29,7 @@ const LanguageSelector = ({ languageSelected }) => {
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -38,6 +40,10 @@ const LanguageSelector = ({ languageSelected }) => {
   const languagesOptions = ['ES', 'EN', 'PT']
   const languageIcons = { EN, ES, PT }
 
+  /**
+   * saves the selected language to translate the application
+   * @param lang language selected globally
+   */
   const handleChangeLanguage = (lang) => {
     localStorage.setItem('lang', lang)
     contextHandleChangeLanguage(lang)
@@ -45,14 +51,32 @@ const LanguageSelector = ({ languageSelected }) => {
   }
 
   return (
-    <div>
-      <Tooltip
-        title={<FormattedMessage id={`header.lang.${languageSelected}`} />}
-      >
-        <Button color='inherit' id='language-button' onClick={handleClick}>
-          {languageSelected}
-        </Button>
-      </Tooltip>
+    <Box>
+      <Box style={{ display: 'flex', alignItems: 'center' }}>
+        <Tooltip
+          title={<FormattedMessage id={`header.lang.${languageSelected}`} />}
+        >
+          <Button
+            color='inherit'
+            id='language-button'
+            onClick={handleClick}
+            style={{
+              width: '50px',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            {languageSelected}
+            <span style={styles.flagContainer}>
+              <img
+                style={styles.flag}
+                src={languageIcons[languageSelected]}
+                alt={languageSelected}
+              />
+            </span>
+          </Button>
+        </Tooltip>
+      </Box>
       <Menu
         id='language-menu'
         anchorEl={anchorEl}
@@ -76,7 +100,7 @@ const LanguageSelector = ({ languageSelected }) => {
                     style={styles.flag}
                     src={languageIcons[language]}
                     alt={language}
-                  ></img>
+                  />
                 </span>
                 <span style={styles.language}>{language}</span>
               </MenuItem>
@@ -84,7 +108,7 @@ const LanguageSelector = ({ languageSelected }) => {
           )
         })}
       </Menu>
-    </div>
+    </Box>
   )
 }
 

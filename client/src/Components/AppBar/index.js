@@ -8,14 +8,14 @@ import Typography from '@mui/material/Typography'
 
 import LanguageSelector from '../languageSelector'
 import { FormattedMessage } from 'react-intl'
-import CustomizedSwitches from '../modeSelector'
+import CustomizedSwitches from '../darkModeSelector'
 
 const CrudAppBar = ({ name, languageSelected }) => {
   return (
     <Box>
       <AppBar position='static'>
         <Toolbar>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography variant='h6' sx={{ flexGrow: 1 }}>
             <FormattedMessage id={name} />
           </Typography>
           <CustomizedSwitches />

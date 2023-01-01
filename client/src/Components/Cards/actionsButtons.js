@@ -9,7 +9,8 @@ import IconButton from '@mui/material/IconButton'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
-export default function BasicPopover() {
+
+const ActionsButtons = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = (event) => {
@@ -57,3 +58,5 @@ export default function BasicPopover() {
     </div>
   )
 }
+
+export default ActionsButtons
