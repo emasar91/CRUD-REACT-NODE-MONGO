@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import CrudApi from '../CrudApi'
 
-function useGetCards() {
+function useGetCards(fetchingCards) {
   const [cards, setCards] = useState([])
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -22,7 +22,7 @@ function useGetCards() {
   useEffect(() => {
     setIsLoading(true)
     getAllCards()
-  }, [getAllCards])
+  }, [getAllCards, fetchingCards])
 
   return [isLoading, cards, error]
 }

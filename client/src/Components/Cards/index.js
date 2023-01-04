@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 //components
@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { Box, Paper } from '@mui/material'
 import Spinner from '../spinner'
 import { FormattedMessage } from 'react-intl'
+import DeleteModal from '../DeleteModal'
 
 //utils
 import truncate from '../../utils/ellipsis'
@@ -99,14 +100,21 @@ const Cards = ({ data, isLoading }) => {
     },
   ]
 
+  const [cardToDelete, setCardToDelete] = useState(null)
+
   /**
    * @param data value corresponding to the cell
    * @param column data from column to be displayed
    * @returns the element with the formatted value
    */
-  const showDataCell = (data, column) => {
+  const showDataCell = (data, column, row) => {
     if (column.id === 'buttons') {
-      return <ActionsButtons />
+      return (
+        <ActionsButtons
+          idCardToDelete={row._id}
+          setCardToDelete={setCardToDelete}
+        />
+      )
     } else if (column.id === 'createdAt' || column.id === 'updatedAt') {
       return <span>{new Date(data).toLocaleDateString()}</span>
     } else if (data.length >= 20) {
@@ -149,7 +157,7 @@ const Cards = ({ data, isLoading }) => {
                         const value = getValueCell(row, column)
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {showDataCell(value, column)}
+                            {showDataCell(value, column, row)}
                           </TableCell>
                         )
                       })}
@@ -161,6 +169,7 @@ const Cards = ({ data, isLoading }) => {
           )}
         </TableContainer>
       </Paper>
+      <DeleteModal id={cardToDelete} />
     </Box>
   )
 }

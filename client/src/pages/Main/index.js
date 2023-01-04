@@ -17,13 +17,13 @@ const style = (theme) => ({
 })
 
 const MainPage = () => {
-  const { languageSelected: lang } = useContext(AppContext)
-  const [isLoading, cards, error] = useGetCards()
+  const { languageSelected: lang, fetchingCards } = useContext(AppContext)
+  const [isLoading, cards, error] = useGetCards(fetchingCards)
 
   return (
     <Paper sx={(theme) => style(theme)}>
       <CrudAppBar name={'header.title'} languageSelected={lang} />
-      <Cards data={cards} isLoading={isLoading} />
+      <Cards data={cards} isLoading={isLoading} />|
     </Paper>
   )
 }

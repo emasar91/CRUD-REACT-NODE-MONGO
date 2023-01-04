@@ -8,6 +8,12 @@ class CrudApi {
     const data = res.data
     return data
   }
+
+  static async deleteCardById(id) {
+    const res = await axios.delete(`${endpoint}/${apiV}/card/${id}`)
+    const data = res.data
+    return data
+  }
 }
 
 export default CrudApi

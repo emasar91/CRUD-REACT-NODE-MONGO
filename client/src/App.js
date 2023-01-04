@@ -8,8 +8,7 @@ import { AppContext } from './context/appContext'
 import './App.css'
 
 function App() {
-  const appContext = useContext(AppContext)
-  const { darkMode } = appContext
+  const { darkMode } = useContext(AppContext)
   const theme = useHookTheme(darkMode)
 
   return (

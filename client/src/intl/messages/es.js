@@ -25,6 +25,14 @@ const es = {
         actions: 'Acciones',
       },
     },
+    deleteModal: {
+      title: 'Eliminar producto',
+      description: 'El producto se eliminará, esta acción no se puede deshacer',
+      buttons: {
+        delete: 'Borrar',
+        cancel: 'Cancelar',
+      },
+    },
     spinner: {
       loading: 'Cargando data...',
     },

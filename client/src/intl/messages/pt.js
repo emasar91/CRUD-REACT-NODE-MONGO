@@ -25,6 +25,14 @@ const pt = {
         actions: 'Acções',
       },
     },
+    deleteModal: {
+      title: 'Eliminar produto',
+      description: 'O produto será apagado, esta ação não pode ser desfeita',
+      buttons: {
+        delete: 'excluir',
+        cancel: 'Cancelar',
+      },
+    },
     spinner: {
       loading: 'Dados de Carregamento...',
     },

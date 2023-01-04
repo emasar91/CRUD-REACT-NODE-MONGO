@@ -25,6 +25,14 @@ const en = {
         actions: 'Actions',
       },
     },
+    deleteModal: {
+      title: 'Delete product',
+      description: 'The product will be deleted, this action cannot be undone',
+      buttons: {
+        delete: 'Delete',
+        cancel: 'Cancel',
+      },
+    },
     spinner: {
       loading: 'Loading data...',
     },

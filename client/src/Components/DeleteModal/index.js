@@ -1,0 +1,79 @@
+import { useContext, useState, useCallback } from 'react'
+
+//components
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Modal from '@mui/material/Modal'
+import { AppContext } from '../../context/appContext'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { FormattedMessage } from 'react-intl'
+
+//utils
+import CrudApi from '../../utils/CrudApi'
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  backgroundColor: 'background.paper',
+  boxShadow: 24,
+  padding: 3,
+}
+
+const DeleteModal = ({ id }) => {
+  const { deleteModal, openDeleteModal, handleFetchingCards } =
+    useContext(AppContext)
+  const handleModal = () => openDeleteModal(!deleteModal)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleDeleteCard = useCallback(() => {
+    setIsLoading(true)
+    CrudApi.deleteCardById(id)
+      .catch((err) => {
+        console.error(err)
+      })
+      .finally(() => {
+        handleFetchingCards()
+        setTimeout(() => {
+          setIsLoading(false)
+          handleModal()
+        }, 1500)
+      })
+  }, [id, handleFetchingCards])
+
+  return (
+    <Modal open={deleteModal} onClose={handleModal}>
+      <Box sx={style}>
+        <Typography id='modal-modal-title' variant='h6' component='h2'>
+          <FormattedMessage id='body.deleteModal.title' />
+        </Typography>
+        <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+          <FormattedMessage id='body.deleteModal.description' />
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            marginTop: 1,
+          }}
+        >
+          <LoadingButton
+            onClick={handleDeleteCard}
+            color='error'
+            loading={isLoading}
+            variant='contained'
+          >
+            <FormattedMessage id='body.deleteModal.buttons.delete' />
+          </LoadingButton>
+          <Button size='medium' onClick={handleModal}>
+            <FormattedMessage id='body.deleteModal.buttons.cancel' />
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
+  )
+}
+export default DeleteModal
