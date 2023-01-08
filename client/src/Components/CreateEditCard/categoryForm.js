@@ -7,10 +7,6 @@ import TextField from '@mui/material/TextField'
 import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import InputLabel from '@mui/material/InputLabel'
 import Spinner from '../spinner'
 import { FormattedMessage } from 'react-intl'
 import Tooltip from '@mui/material/Tooltip'
@@ -38,27 +34,18 @@ const styles = {
 
 const validationSchema = yup.object({
   name: yup.string('Enter a name').required('name is required'),
-  category: yup.string('select category').required('category is required'),
   description: yup
     .string('Enter a description')
     .required('description is required'),
 })
 
-const ProductForm = ({
-  onSubmit,
-  onClose,
-  isLoading,
-  data,
-  category,
-  categories,
-}) => {
+const CategoryForm = ({ onSubmit, onClose, isLoading, data }) => {
   const showSpinner = useGetSpinner(isLoading)
 
   const formik = useFormik({
     initialValues: {
-      id: data.id,
+      id: data._id,
       name: data.name || '',
-      category: category || '',
       description: data.description || '',
     },
     validationSchema: validationSchema,
@@ -72,62 +59,52 @@ const ProductForm = ({
       {showSpinner ? (
         <Spinner width={400} height={322.9} />
       ) : (
-        <form onSubmit={formik.handleSubmit}>
-          <Box sx={styles.inputsContainer}>
-            <TextField
-              fullWidth
-              id='name'
-              name='name'
-              label={<FormattedMessage id='body.createEditModal.values.name' />}
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-          </Box>
-
-          <Box sx={styles.inputsContainer}>
-            <FormControl fullWidth>
-              <InputLabel id='category'>
-                {<FormattedMessage id='body.createEditModal.values.category' />}
-              </InputLabel>
-              <Select
-                labelId='category'
+        <form
+          onSubmit={formik.handleSubmit}
+          style={{
+            height: '322px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box>
+            <Box sx={styles.inputsContainer}>
+              <TextField
+                fullWidth
+                id='name'
+                name='name'
                 label={
-                  <FormattedMessage id='body.createEditModal.values.category' />
+                  <FormattedMessage id='body.createEditModal.values.name' />
                 }
-                name='category'
+                value={formik.values.name}
                 onChange={formik.handleChange}
-                value={formik.values.category}
-              >
-                {categories.map((category) => (
-                  <MenuItem key={category._id} value={category._id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+            </Box>
 
-          <Box sx={styles.inputsContainer}>
-            <TextField
-              fullWidth
-              id='description'
-              name='description'
-              label={
-                <FormattedMessage id='body.createEditModal.values.description' />
-              }
-              multiline
-              rows={3}
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.description && Boolean(formik.errors.description)
-              }
-              helperText={
-                formik.touched.description && formik.errors.description
-              }
-            />
+            <Box sx={styles.inputsContainer}>
+              <TextField
+                fullWidth
+                id='description'
+                name='description'
+                label={
+                  <FormattedMessage id='body.createEditModal.values.description' />
+                }
+                multiline
+                rows={3}
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
+              />
+            </Box>
           </Box>
           <Box sx={styles.buttonsContainer}>
             <IconButton>
@@ -150,6 +127,7 @@ const ProductForm = ({
                 loading={isLoading}
                 variant='contained'
                 type='submit'
+                onClick={formik.handleSubmit}
               >
                 <FormattedMessage id={'body.createEditModal.buttons.update'} />
               </LoadingButton>
@@ -161,4 +139,4 @@ const ProductForm = ({
   )
 }
 
-export default ProductForm
+export default CategoryForm

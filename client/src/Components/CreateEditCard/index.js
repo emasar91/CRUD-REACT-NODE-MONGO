@@ -16,6 +16,7 @@ import ProductForm from './productForm'
 import useGetCategories from '../../utils/hooks/useGetCategories'
 import useGetCategory from '../../utils/hooks/useGetCategory'
 import CrudApi from '../../utils/CrudApi'
+import CategoryForm from './categoryForm'
 
 const styles = {
   container: {
@@ -39,11 +40,13 @@ const styles = {
 }
 
 const CreateEditCard = ({ id, action, tab, data = {} }) => {
-  const [isLoadingAllCategories, allCategories] = useGetCategories(action)
-  const [isLoadingCategory, category] = useGetCategory(id)
-
   const { crateEditModal, openCreateEditModal, handleFetchingCards } =
     useAppContext()
+  const [isLoadingAllCategories, allCategories] = useGetCategories(
+    action,
+    handleFetchingCards
+  )
+  const [isLoadingCategory, category] = useGetCategory(id, handleFetchingCards)
 
   const [tabSelected, setSelectedTab] = useState(tab || 'product')
 
@@ -65,6 +68,26 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
       values.updatedAt = Date.now()
       setIsLoading(true)
       CrudApi.updateCardById(values.id, { data: values })
+        .catch((err) => {
+          console.error(err)
+        })
+        .finally(() => {
+          handleFetchingCards()
+          setTimeout(() => {
+            setIsLoading(false)
+            handleModal()
+          }, 1500)
+        })
+      // eslint-disable-next-line
+    },
+    [id, handleFetchingCards]
+  )
+
+  const handleUpdateCategory = useCallback(
+    (values) => {
+      values.updatedAt = Date.now()
+      setIsLoading(true)
+      CrudApi.updateCategoryById(values.id, { data: values })
         .catch((err) => {
           console.error(err)
         })
@@ -110,7 +133,14 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
               categories={allCategories}
             />
           </TabPanel>
-          <TabPanel value='category'>Item Two</TabPanel>
+          <TabPanel value='category' sx={styles.tabPanel}>
+            <CategoryForm
+              onSubmit={handleUpdateCategory}
+              onClose={handleModal}
+              isLoading={isLoading}
+              data={category}
+            />
+          </TabPanel>
         </TabContext>
       </Box>
     </Modal>

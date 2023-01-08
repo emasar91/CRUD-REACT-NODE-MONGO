@@ -84,6 +84,7 @@ const Cards = ({ data, isLoading }) => {
       label: <FormattedMessage id={`body.table.rows.category`} />,
       width: 120,
       align: 'center',
+      limit: 10,
       format: (value) => value.toLocaleString('en-US'),
     },
     {
@@ -114,6 +115,12 @@ const Cards = ({ data, isLoading }) => {
       return <ActionsButtons setCard={setCard} data={row} />
     } else if (column.id === 'createdAt' || column.id === 'updatedAt') {
       return <span>{new Date(data).toLocaleDateString()}</span>
+    } else if (column.id === 'category') {
+      return (
+        <Tooltip title={data.tooltip} arrow>
+          <span>{truncate(data.value, column.limit)}</span>
+        </Tooltip>
+      )
     } else if (data.length >= 20) {
       return (
         <Tooltip title={data} arrow>

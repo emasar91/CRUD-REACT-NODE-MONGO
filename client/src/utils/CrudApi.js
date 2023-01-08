@@ -34,6 +34,15 @@ class CrudApi {
     const data = res.data
     return data
   }
+
+  static async updateCategoryById(id, dataToUpdate) {
+    const res = await axios.put(
+      `${endpoint}/${apiV}/category/${id}`,
+      dataToUpdate
+    )
+    const data = res.data
+    return data
+  }
 }
 
 export default CrudApi

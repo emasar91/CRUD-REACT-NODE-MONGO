@@ -9,7 +9,7 @@ const getValueCell = (data, column) => {
   if (column.id === '_id') {
     return idPrettier(data[column.id])
   } else if (column.id === 'category') {
-    return data[column.id].name
+    return { value: data[column.id].name, tooltip: data[column.id].description }
   } else {
     return data[column.id]
   }

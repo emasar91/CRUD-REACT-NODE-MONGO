@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react'
 import CrudApi from '../CrudApi'
 
-function useGetCategories(action) {
+function useGetCategories(action, handleFetchingCards) {
   const [categories, setCategories] = useState([])
   const [isLoadingCategories, setIsLoadingCategories] = useState(false)
 
   const getAllCategories = useCallback(() => {
-    if (action) {
+    if ((action, handleFetchingCards)) {
       CrudApi.getAllCategories()
         .then((response) => {
           setCategories(response)
@@ -18,12 +18,12 @@ function useGetCategories(action) {
           setIsLoadingCategories(false)
         })
     }
-  }, [action])
+  }, [action, handleFetchingCards])
 
   useEffect(() => {
     setIsLoadingCategories(true)
     getAllCategories()
-  }, [getAllCategories, action])
+  }, [getAllCategories, action, handleFetchingCards])
 
   return [isLoadingCategories, categories]
 }
