@@ -9,7 +9,7 @@ function useGetSpinner(isLoading) {
       if (!isLoading) {
         setShowSpinner(false)
       }
-    }, '1500')
+    }, '1000')
   }, [isLoading])
 
   useEffect(() => {

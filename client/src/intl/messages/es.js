@@ -8,6 +8,27 @@ const es = {
     },
   },
   body: {
+    addButtons: {
+      product: 'Crear Producto',
+      category: 'Crear Categoria',
+    },
+    createEditModal: {
+      tabs: {
+        product: 'Producto',
+        category: 'Categoría',
+      },
+      values: {
+        name: 'Nombre',
+        category: 'Categoría',
+        description: 'Descripción',
+      },
+      buttons: {
+        update: 'Actualizar',
+        create: 'Crear',
+        cancel: 'Cancelar',
+        info: 'Sólo se guardará esta pestaña',
+      },
+    },
     table: {
       rows: {
         id: 'ID',

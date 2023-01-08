@@ -1,17 +1,17 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 const initAppContext = {
   darkMode: false,
   lang: 'ES',
   deleteModal: false,
   saveModal: false,
-  editModal: false,
+  crateEditModal: false,
   fetchingCards: false,
 }
 
-export const AppContext = createContext(initAppContext)
+const AppContext = createContext(initAppContext)
 
-export const AppContextProvider = (props) => {
+const AppContextProvider = (props) => {
   const [darkMode, setDarkMode] = useState(initAppContext.darkMode)
 
   const languageDefault = localStorage.getItem('lang') || initAppContext.lang
@@ -22,7 +22,9 @@ export const AppContextProvider = (props) => {
 
   const [saveModal, setSaveModal] = useState(initAppContext.saveModal)
 
-  const [editModal, setEditModal] = useState(initAppContext.editModal)
+  const [crateEditModal, setCreateEditModal] = useState(
+    initAppContext.crateEditModal
+  )
 
   const [fetchingCards, setFetchingCards] = useState(
     initAppContext.fetchingCards
@@ -41,8 +43,8 @@ export const AppContextProvider = (props) => {
     setDarkMode(!darkMode)
   }
 
-  const openEditModal = () => {
-    setEditModal(!editModal)
+  const openCreateEditModal = () => {
+    setCreateEditModal(!crateEditModal)
   }
 
   const openDeleteModal = () => {
@@ -60,8 +62,8 @@ export const AppContextProvider = (props) => {
         toggleDarkMode,
         languageSelected,
         handleChangeLanguage,
-        openEditModal,
-        editModal,
+        openCreateEditModal,
+        crateEditModal,
         openDeleteModal,
         deleteModal,
         openSaveModal,
@@ -72,4 +74,10 @@ export const AppContextProvider = (props) => {
       {...props}
     />
   )
+}
+
+export default AppContextProvider
+
+export function useAppContext() {
+  return useContext(AppContext)
 }

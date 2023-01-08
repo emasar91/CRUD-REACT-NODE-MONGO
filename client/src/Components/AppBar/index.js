@@ -12,7 +12,7 @@ import CustomizedSwitches from '../darkModeSelector'
 
 const CrudAppBar = ({ name, languageSelected }) => {
   return (
-    <Box>
+    <Box sx={{ height: 65 }}>
       <AppBar position='static'>
         <Toolbar>
           <Typography variant='h6' sx={{ flexGrow: 1 }}>

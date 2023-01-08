@@ -8,6 +8,27 @@ const en = {
     },
   },
   body: {
+    addButtons: {
+      product: 'Add Product',
+      category: 'Add Category',
+    },
+    createEditModal: {
+      tabs: {
+        product: 'Product',
+        category: 'Category',
+      },
+      values: {
+        name: 'Name',
+        category: 'Category',
+        description: 'Description',
+      },
+      buttons: {
+        update: 'Update',
+        create: 'Create',
+        cancel: 'Cancel',
+        info: 'Only this tab will be saved',
+      },
+    },
     table: {
       rows: {
         id: 'ID',

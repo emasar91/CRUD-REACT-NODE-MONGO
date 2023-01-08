@@ -13,6 +13,8 @@ import { Box, Paper } from '@mui/material'
 import Spinner from '../spinner'
 import { FormattedMessage } from 'react-intl'
 import DeleteModal from '../DeleteModal'
+import SearchBar from '../SearchBar'
+import CreateEditCard from '../CreateEditCard'
 
 //utils
 import truncate from '../../utils/ellipsis'
@@ -25,12 +27,12 @@ import useGetSpinner from '../../utils/hooks/useGetSpinner'
 const Cards = ({ data, isLoading }) => {
   const style = (theme) => ({
     root: {
-      minHeight: ' 93vh',
       display: 'flex',
+      width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
     },
-    paper: { maxHeight: 500, padding: 2.5, overflowY: 'auto', minWidth: 970 },
+    paper: { maxHeight: 600, padding: 2.5, overflowY: 'auto', minWidth: 970 },
     tableContainer: {
       height: 495,
 
@@ -100,7 +102,7 @@ const Cards = ({ data, isLoading }) => {
     },
   ]
 
-  const [cardToDelete, setCardToDelete] = useState(null)
+  const [card, setCard] = useState({})
 
   /**
    * @param data value corresponding to the cell
@@ -109,12 +111,7 @@ const Cards = ({ data, isLoading }) => {
    */
   const showDataCell = (data, column, row) => {
     if (column.id === 'buttons') {
-      return (
-        <ActionsButtons
-          idCardToDelete={row._id}
-          setCardToDelete={setCardToDelete}
-        />
-      )
+      return <ActionsButtons setCard={setCard} data={row} />
     } else if (column.id === 'createdAt' || column.id === 'updatedAt') {
       return <span>{new Date(data).toLocaleDateString()}</span>
     } else if (data.length >= 20) {
@@ -131,9 +128,11 @@ const Cards = ({ data, isLoading }) => {
   return (
     <Box sx={(theme) => style(theme).root}>
       <Paper sx={(theme) => style(theme).paper}>
+        <SearchBar data={data} />
+
         <TableContainer sx={(theme) => style(theme).tableContainer}>
           {showSpinner ? (
-            <Spinner />
+            <Spinner width={970} height={480} />
           ) : (
             <Table stickyHeader>
               <TableHead>
@@ -142,7 +141,7 @@ const Cards = ({ data, isLoading }) => {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ width: column.width, textAlign: column.align }}
+                      sx={{ width: column.width, textAlign: column.align }}
                     >
                       {column.label}
                     </TableCell>
@@ -169,7 +168,10 @@ const Cards = ({ data, isLoading }) => {
           )}
         </TableContainer>
       </Paper>
-      <DeleteModal id={cardToDelete} />
+      <DeleteModal id={card.id} />
+      {card.id && (
+        <CreateEditCard action='update' data={card} id={card.category} />
+      )}
     </Box>
   )
 }

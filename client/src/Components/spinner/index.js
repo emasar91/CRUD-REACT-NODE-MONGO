@@ -4,18 +4,20 @@ import Box from '@mui/material/Box'
 import { Typography } from '@mui/material'
 import { FormattedMessage } from 'react-intl'
 
-const Spinner = () => {
+const style = (width, height) => ({
+  container: {
+    width: width,
+    height: height,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+})
+
+const Spinner = ({ width, height }) => {
   return (
-    <Box
-      style={{
-        width: '970px',
-        height: '480px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <Box sx={() => style(width, height).container}>
       <CircularProgress />
       <Typography>
         <FormattedMessage id={`body.spinner.loading`} />

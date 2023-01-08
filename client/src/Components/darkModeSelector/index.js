@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { styled } from '@mui/material/styles'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { AppContext } from '../../context/appContext'
+import { useAppContext } from '../../context/appContext'
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -52,7 +52,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }))
 
 export default function CustomizedSwitches() {
-  const { darkMode, toggleDarkMode } = useContext(AppContext)
+  const { darkMode, toggleDarkMode } = useAppContext()
 
   return (
     <FormControlLabel

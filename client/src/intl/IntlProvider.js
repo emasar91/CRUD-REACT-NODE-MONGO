@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { IntlProvider as I18nProvider } from 'react-intl'
 
 // Lang sheets
 import es from './messages/es'
 import pt from './messages/pt'
 import en from './messages/en'
-import { AppContext } from '../context/appContext'
+import { useAppContext } from '../context/appContext'
 
 const flattenMessages = (nestedMessages, prefix = '') => {
   if (nestedMessages === null) {
@@ -32,7 +32,7 @@ const messages = {
 }
 
 const IntlProvider = ({ children }) => {
-  const { languageSelected } = useContext(AppContext)
+  const { languageSelected } = useAppContext()
   return (
     <I18nProvider
       locale={languageSelected}

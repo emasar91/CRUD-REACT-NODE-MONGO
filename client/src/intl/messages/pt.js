@@ -8,6 +8,27 @@ const pt = {
     },
   },
   body: {
+    addButtons: {
+      product: 'Adicionar Produto',
+      category: 'Adicionar Categoria',
+    },
+    createEditModal: {
+      tabs: {
+        product: 'Produto',
+        category: 'Categoria',
+      },
+      values: {
+        name: 'Nome',
+        category: 'Categoria',
+        description: 'Descrição',
+      },
+      buttons: {
+        update: 'Atualização',
+        create: 'Criar',
+        cancel: 'Cancelar',
+        info: 'Somente esta aba será salva',
+      },
+    },
     table: {
       rows: {
         id: 'ID',

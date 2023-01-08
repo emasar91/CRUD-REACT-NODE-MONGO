@@ -3,7 +3,6 @@ import CrudApi from '../CrudApi'
 
 function useGetCards(fetchingCards) {
   const [cards, setCards] = useState([])
-  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const getAllCards = useCallback(() => {
@@ -12,7 +11,7 @@ function useGetCards(fetchingCards) {
         setCards(response)
       })
       .catch((err) => {
-        setError(err)
+        console.error(err)
       })
       .finally(() => {
         setIsLoading(false)
@@ -24,7 +23,7 @@ function useGetCards(fetchingCards) {
     getAllCards()
   }, [getAllCards, fetchingCards])
 
-  return [isLoading, cards, error]
+  return [isLoading, cards]
 }
 
 export default useGetCards

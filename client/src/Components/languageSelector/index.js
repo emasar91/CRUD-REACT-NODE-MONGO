@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Button from '@mui/material/Button'
@@ -9,8 +9,9 @@ import MenuItem from '@mui/material/MenuItem'
 import EN from '../../assets/icons/EN.png'
 import ES from '../../assets/icons/ES.png'
 import PT from '../../assets/icons/PT.png'
-import { AppContext } from '../../context/appContext'
+import { useAppContext } from '../../context/appContext'
 import { FormattedMessage } from 'react-intl'
+import { Typography } from '@mui/material'
 
 const styles = {
   flag: {
@@ -21,11 +22,16 @@ const styles = {
   language: {
     paddingLeft: '8px',
   },
+  buttonContainer: { display: 'flex', alignItems: 'center' },
+  buttonLanguage: {
+    width: '50px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }
 
 const LanguageSelector = ({ languageSelected }) => {
-  const { handleChangeLanguage: contextHandleChangeLanguage } =
-    useContext(AppContext)
+  const { handleChangeLanguage: contextHandleChangeLanguage } = useAppContext()
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -52,7 +58,7 @@ const LanguageSelector = ({ languageSelected }) => {
 
   return (
     <Box>
-      <Box style={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={styles.buttonContainer}>
         <Tooltip
           title={<FormattedMessage id={`header.lang.${languageSelected}`} />}
         >
@@ -60,29 +66,20 @@ const LanguageSelector = ({ languageSelected }) => {
             color='inherit'
             id='language-button'
             onClick={handleClick}
-            style={{
-              width: '50px',
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
+            sx={styles.buttonLanguage}
           >
             {languageSelected}
-            <span style={styles.flagContainer}>
+            <Typography sx={styles.flagContainer}>
               <img
                 style={styles.flag}
                 src={languageIcons[languageSelected]}
                 alt={languageSelected}
               />
-            </span>
+            </Typography>
           </Button>
         </Tooltip>
       </Box>
-      <Menu
-        id='language-menu'
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {languagesOptions.map((language) => {
           return (
             <Tooltip
@@ -95,14 +92,14 @@ const LanguageSelector = ({ languageSelected }) => {
                 key={language}
                 onClick={() => handleChangeLanguage(language)}
               >
-                <span style={styles.flagContainer}>
+                <Typography sx={styles.flagContainer}>
                   <img
                     style={styles.flag}
                     src={languageIcons[language]}
                     alt={language}
                   />
-                </span>
-                <span style={styles.language}>{language}</span>
+                </Typography>
+                <Typography sx={styles.language}>{language}</Typography>
               </MenuItem>
             </Tooltip>
           )

@@ -1,19 +1,20 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 
 //components
 import Popover from '@mui/material/Popover'
-import { Tooltip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
-import { AppContext } from '../../context/appContext'
+import { useAppContext } from '../../context/appContext'
 
 //icons
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 
-const ActionsButtons = ({ idCardToDelete, setCardToDelete }) => {
+const ActionsButtons = ({ setCard, data }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { deleteModal, openDeleteModal } = useContext(AppContext)
+  const { deleteModal, openDeleteModal, crateEditModal, openCreateEditModal } =
+    useAppContext()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -21,6 +22,13 @@ const ActionsButtons = ({ idCardToDelete, setCardToDelete }) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const cardSelected = {
+    id: data._id,
+    category: data.category._id,
+    description: data.description,
+    name: data.name,
   }
 
   const open = Boolean(anchorEl)
@@ -46,7 +54,12 @@ const ActionsButtons = ({ idCardToDelete, setCardToDelete }) => {
           horizontal: 'center',
         }}
       >
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            openCreateEditModal(!crateEditModal)
+            setCard(cardSelected)
+          }}
+        >
           <Tooltip title='Edit'>
             <EditOutlinedIcon />
           </Tooltip>
@@ -54,7 +67,7 @@ const ActionsButtons = ({ idCardToDelete, setCardToDelete }) => {
         <IconButton
           onClick={() => {
             openDeleteModal(!deleteModal)
-            setCardToDelete(idCardToDelete)
+            setCard(cardSelected)
           }}
         >
           <Tooltip title='Delete'>
