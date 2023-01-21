@@ -17,6 +17,8 @@ const pt = {
         product: 'Produto',
         category: 'Categoria',
       },
+      createProduct: 'Criar Produto',
+      createCategory: 'Criar Categoria',
       values: {
         name: 'Nome',
         category: 'Categoria',
@@ -27,6 +29,7 @@ const pt = {
         create: 'Criar',
         cancel: 'Cancelar',
         info: 'Somente esta aba será salva',
+        alert: 'Primeiro deve ser criada uma categoria',
       },
     },
     table: {
@@ -57,6 +60,10 @@ const pt = {
     spinner: {
       loading: 'Dados de Carregamento...',
     },
+    notSupported:
+      'Esta página foi desenvolvida apenas para ser exibida em telas maiores que 1024px de largura',
+    errorPage: 'Esta página não existe, tente voltar para inicio',
+    home: 'Inicio',
   },
 }
 

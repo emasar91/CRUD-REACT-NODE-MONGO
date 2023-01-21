@@ -17,6 +17,8 @@ const en = {
         product: 'Product',
         category: 'Category',
       },
+      createProduct: 'Create Product',
+      createCategory: 'Create Category',
       values: {
         name: 'Name',
         category: 'Category',
@@ -27,6 +29,7 @@ const en = {
         create: 'Create',
         cancel: 'Cancel',
         info: 'Only this tab will be saved',
+        alert: 'First you must create a category',
       },
     },
     table: {
@@ -57,6 +60,10 @@ const en = {
     spinner: {
       loading: 'Loading data...',
     },
+    notSupported:
+      'This page was only developed to be displayed on screens larger than 1024px wide',
+    errorPage: 'This page does not exist, try to return home',
+    home: 'Home',
   },
 }
 

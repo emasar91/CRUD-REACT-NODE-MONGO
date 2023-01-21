@@ -15,6 +15,9 @@ import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined'
 import Box from '@mui/material/Box'
 import { FormattedMessage } from 'react-intl'
 
+//hooks
+import { useAppContext } from '../../context/appContext'
+
 const styles = {
   itemContainer: {
     display: 'flex',
@@ -34,6 +37,8 @@ const styles = {
 const AddProductAndCategory = (props) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
+  const { openAddProduct, openAddCategory } = useAppContext()
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -44,10 +49,18 @@ const AddProductAndCategory = (props) => {
 
   const open = Boolean(anchorEl)
 
+  const handleProductModal = () => {
+    openAddProduct()
+  }
+
+  const handleCategoryModal = () => {
+    openAddCategory()
+  }
+
   return (
     <Box>
       <IconButton onClick={handleClick}>
-        <ControlPointOutlinedIcon />
+        <ControlPointOutlinedIcon sx={{ color: 'white' }} />
       </IconButton>
 
       <Popover
@@ -64,13 +77,22 @@ const AddProductAndCategory = (props) => {
         }}
       >
         <Box sx={styles.itemsContainer}>
-          <Button sx={styles.itemContainer} color='inherit'>
+          <Button
+            sx={styles.itemContainer}
+            color='inherit'
+            onClick={handleProductModal}
+          >
             <Inventory2OutlinedIcon />
             <Typography sx={styles.labelItem}>
               <FormattedMessage id='body.addButtons.product' />
             </Typography>
           </Button>
-          <Button sx={styles.itemContainer} color='inherit'>
+
+          <Button
+            sx={styles.itemContainer}
+            color='inherit'
+            onClick={handleCategoryModal}
+          >
             <CategoryOutlinedIcon />
             <Typography sx={styles.labelItem}>
               <FormattedMessage id='body.addButtons.category' />

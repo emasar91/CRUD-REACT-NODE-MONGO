@@ -4,8 +4,7 @@ const initAppContext = {
   darkMode: false,
   lang: 'ES',
   deleteModal: false,
-  saveModal: false,
-  crateEditModal: false,
+  createEditModal: { open: false, action: 'add', tab: 'product' },
   fetchingCards: false,
 }
 
@@ -20,10 +19,8 @@ const AppContextProvider = (props) => {
 
   const [deleteModal, setDeleteModal] = useState(initAppContext.deleteModal)
 
-  const [saveModal, setSaveModal] = useState(initAppContext.saveModal)
-
-  const [crateEditModal, setCreateEditModal] = useState(
-    initAppContext.crateEditModal
+  const [createEditModal, setCreateEditModal] = useState(
+    initAppContext.createEditModal
   )
 
   const [fetchingCards, setFetchingCards] = useState(
@@ -43,16 +40,31 @@ const AppContextProvider = (props) => {
     setDarkMode(!darkMode)
   }
 
-  const openCreateEditModal = () => {
-    setCreateEditModal(!crateEditModal)
+  const openAddProduct = () => {
+    setCreateEditModal({
+      open: !createEditModal.open,
+      action: 'add',
+      tab: 'product',
+    })
+  }
+  const openAddCategory = () => {
+    setCreateEditModal({
+      open: !createEditModal.open,
+      action: 'add',
+      tab: 'category',
+    })
+  }
+
+  const openEditModal = () => {
+    setCreateEditModal({
+      open: !createEditModal.open,
+      action: 'edit',
+      tab: 'product',
+    })
   }
 
   const openDeleteModal = () => {
     setDeleteModal(!deleteModal)
-  }
-
-  const openSaveModal = () => {
-    setSaveModal(!saveModal)
   }
 
   return (
@@ -62,12 +74,12 @@ const AppContextProvider = (props) => {
         toggleDarkMode,
         languageSelected,
         handleChangeLanguage,
-        openCreateEditModal,
-        crateEditModal,
+        openAddProduct,
+        openAddCategory,
+        openEditModal,
+        createEditModal,
         openDeleteModal,
         deleteModal,
-        openSaveModal,
-        saveModal,
         fetchingCards,
         handleFetchingCards,
       }}

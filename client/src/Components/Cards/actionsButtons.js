@@ -13,8 +13,7 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 
 const ActionsButtons = ({ setCard, data }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { deleteModal, openDeleteModal, crateEditModal, openCreateEditModal } =
-    useAppContext()
+  const { deleteModal, openDeleteModal, openEditModal } = useAppContext()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -56,12 +55,12 @@ const ActionsButtons = ({ setCard, data }) => {
       >
         <IconButton
           onClick={() => {
-            openCreateEditModal(!crateEditModal)
+            openEditModal()
             setCard(cardSelected)
           }}
         >
           <Tooltip title='Edit'>
-            <EditOutlinedIcon />
+            <EditOutlinedIcon color='success' />
           </Tooltip>
         </IconButton>
         <IconButton
@@ -71,7 +70,7 @@ const ActionsButtons = ({ setCard, data }) => {
           }}
         >
           <Tooltip title='Delete'>
-            <DeleteOutlineOutlinedIcon />
+            <DeleteOutlineOutlinedIcon color='error' />
           </Tooltip>
         </IconButton>
       </Popover>

@@ -8,15 +8,22 @@ const es = {
     },
   },
   body: {
+    searcherBar: {
+      search: {
+        placeholder: 'Buscar',
+      },
+    },
     addButtons: {
       product: 'Crear Producto',
-      category: 'Crear Categoria',
+      category: 'Crear Categoría',
     },
     createEditModal: {
       tabs: {
         product: 'Producto',
         category: 'Categoría',
       },
+      createProduct: 'Crear Producto',
+      createCategory: 'Crear Categoría',
       values: {
         name: 'Nombre',
         category: 'Categoría',
@@ -27,6 +34,7 @@ const es = {
         create: 'Crear',
         cancel: 'Cancelar',
         info: 'Sólo se guardará esta pestaña',
+        alert: 'Primero se debe crear una categoría',
       },
     },
     table: {
@@ -55,8 +63,12 @@ const es = {
       },
     },
     spinner: {
-      loading: 'Cargando data...',
+      loading: 'Cargando datos...',
     },
+    notSupported:
+      'Esta página sólo se ha desarrollado para visualizarse en pantallas de más de 1024px de ancho',
+    errorPage: 'Esta página no existe, intenta volver al inicio',
+    home: 'Inicio',
   },
 }
 export default es

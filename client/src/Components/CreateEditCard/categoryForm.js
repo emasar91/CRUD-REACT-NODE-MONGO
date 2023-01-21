@@ -39,12 +39,18 @@ const validationSchema = yup.object({
     .required('description is required'),
 })
 
-const CategoryForm = ({ onSubmit, onClose, isLoading, data }) => {
+const CategoryForm = ({
+  onSubmit,
+  onClose,
+  isLoading,
+  data = {},
+  buttonLabel,
+}) => {
   const showSpinner = useGetSpinner(isLoading)
 
   const formik = useFormik({
     initialValues: {
-      id: data._id,
+      id: data._id || '',
       name: data.name || '',
       description: data.description || '',
     },
@@ -119,7 +125,12 @@ const CategoryForm = ({ onSubmit, onClose, isLoading, data }) => {
             </IconButton>
 
             <Box>
-              <Button size='medium' disabled={isLoading} onClick={onClose}>
+              <Button
+                size='medium'
+                disabled={isLoading}
+                onClick={onClose}
+                color='success'
+              >
                 <FormattedMessage id='body.createEditModal.buttons.cancel' />
               </Button>
 
@@ -127,9 +138,18 @@ const CategoryForm = ({ onSubmit, onClose, isLoading, data }) => {
                 loading={isLoading}
                 variant='contained'
                 type='submit'
+                color='success'
                 onClick={formik.handleSubmit}
               >
-                <FormattedMessage id={'body.createEditModal.buttons.update'} />
+                {buttonLabel !== 'add' ? (
+                  <FormattedMessage
+                    id={'body.createEditModal.buttons.update'}
+                  />
+                ) : (
+                  <FormattedMessage
+                    id={'body.createEditModal.buttons.create'}
+                  />
+                )}
               </LoadingButton>
             </Box>
           </Box>

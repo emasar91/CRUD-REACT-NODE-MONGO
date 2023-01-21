@@ -17,6 +17,7 @@ import useGetCategories from '../../utils/hooks/useGetCategories'
 import useGetCategory from '../../utils/hooks/useGetCategory'
 import CrudApi from '../../utils/CrudApi'
 import CategoryForm from './categoryForm'
+import { Typography } from '@mui/material'
 
 const styles = {
   container: {
@@ -39,16 +40,23 @@ const styles = {
   },
 }
 
-const CreateEditCard = ({ id, action, tab, data = {} }) => {
-  const { crateEditModal, openCreateEditModal, handleFetchingCards } =
+const CreateEditCard = ({ id, data }) => {
+  const { createEditModal, openEditModal, handleFetchingCards } =
     useAppContext()
+
   const [isLoadingAllCategories, allCategories] = useGetCategories(
-    action,
+    createEditModal.action,
     handleFetchingCards
   )
-  const [isLoadingCategory, category] = useGetCategory(id, handleFetchingCards)
 
-  const [tabSelected, setSelectedTab] = useState(tab || 'product')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [isLoadingCategory, category] = useGetCategory(
+    id,
+    createEditModal.action
+  )
+
+  const [tabSelected, setSelectedTab] = useState(createEditModal.tab)
 
   const handleChange = (event, tab) => {
     setSelectedTab(tab)
@@ -56,12 +64,10 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
 
   const handleModal = () => {
     if (!isLoading) {
-      openCreateEditModal(!crateEditModal)
+      openEditModal()
     }
     setSelectedTab('product')
   }
-
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleUpdateProduct = useCallback(
     (values) => {
@@ -78,8 +84,8 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
             handleModal()
           }, 1500)
         })
-      // eslint-disable-next-line
     },
+    // eslint-disable-next-line
     [id, handleFetchingCards]
   )
 
@@ -98,50 +104,139 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
             handleModal()
           }, 1500)
         })
-      // eslint-disable-next-line
     },
+    // eslint-disable-next-line
     [id, handleFetchingCards]
   )
 
+  const handleAddProduct = useCallback(
+    (values) => {
+      setIsLoading(true)
+      CrudApi.addNewCard({ data: values })
+        .catch((err) => {
+          console.error(err)
+        })
+        .finally(() => {
+          handleFetchingCards()
+          setTimeout(() => {
+            setIsLoading(false)
+            handleModal()
+          }, 1500)
+        })
+    },
+    // eslint-disable-next-line
+    [handleFetchingCards]
+  )
+
+  const handleAddCategory = useCallback(
+    (values) => {
+      setIsLoading(true)
+      CrudApi.addNewCategory({ data: values })
+        .catch((err) => {
+          console.error(err)
+        })
+        .finally(() => {
+          handleFetchingCards()
+          setTimeout(() => {
+            setIsLoading(false)
+            handleModal()
+          }, 1500)
+        })
+    },
+    // eslint-disable-next-line
+    [handleFetchingCards]
+  )
+
   return (
-    <Modal open={crateEditModal} onClose={handleModal}>
+    <Modal open={createEditModal.open} onClose={handleModal}>
       <Box sx={styles.container}>
-        <TabContext value={tabSelected}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label='lab API tabs example'>
-              <Tab
-                label={
-                  <FormattedMessage id='body.createEditModal.tabs.product' />
-                }
-                value='product'
+        {createEditModal.action === 'edit' ? (
+          <TabContext value={tabSelected}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList
+                onChange={handleChange}
+                sx={{
+                  '.MuiTabs-indicator': {
+                    backgroundColor: '#066178',
+                  },
+                  '.Mui-selected': {
+                    color: '#066178 !important',
+                  },
+                }}
+              >
+                <Tab
+                  label={
+                    <FormattedMessage id='body.createEditModal.tabs.product' />
+                  }
+                  value='product'
+                />
+                <Tab
+                  label={
+                    <FormattedMessage id='body.createEditModal.tabs.category' />
+                  }
+                  value='category'
+                />
+              </TabList>
+            </Box>
+            <TabPanel value='product' sx={styles.tabPanel}>
+              <ProductForm
+                onSubmit={handleUpdateProduct}
+                onClose={handleModal}
+                isLoading={isLoading || isLoadingAllCategories}
+                data={data}
+                category={id}
+                categories={allCategories}
+                buttonLabel={'edit'}
               />
-              <Tab
-                label={
-                  <FormattedMessage id='body.createEditModal.tabs.category' />
-                }
-                value='category'
+            </TabPanel>
+            <TabPanel value='category' sx={styles.tabPanel}>
+              <CategoryForm
+                onSubmit={handleUpdateCategory}
+                onClose={handleModal}
+                isLoading={isLoading || isLoadingCategory}
+                data={category}
+                buttonLabel={'edit'}
               />
-            </TabList>
-          </Box>
-          <TabPanel value='product' sx={styles.tabPanel}>
+            </TabPanel>
+          </TabContext>
+        ) : createEditModal.tab === 'product' ? (
+          <Box sx={styles.container}>
+            <Typography
+              sx={{
+                padding: '12px',
+                backgroundColor: 'searchBar.background',
+                color: 'white',
+              }}
+            >
+              <FormattedMessage id={'body.createEditModal.createProduct'} />
+            </Typography>
             <ProductForm
-              onSubmit={handleUpdateProduct}
+              onSubmit={handleAddProduct}
               onClose={handleModal}
-              isLoading={isLoading}
-              data={data}
-              category={id}
+              isLoading={isLoading || isLoadingAllCategories}
               categories={allCategories}
+              buttonLabel={'add'}
             />
-          </TabPanel>
-          <TabPanel value='category' sx={styles.tabPanel}>
+          </Box>
+        ) : (
+          <Box sx={styles.container}>
+            <Typography
+              sx={{
+                padding: '12px',
+                backgroundColor: 'searchBar.background',
+                color: 'white',
+              }}
+            >
+              <FormattedMessage id={'body.createEditModal.createCategory'} />
+            </Typography>
             <CategoryForm
-              onSubmit={handleUpdateCategory}
+              onSubmit={handleAddCategory}
               onClose={handleModal}
               isLoading={isLoading}
-              data={category}
+              buttonLabel={'add'}
             />
-          </TabPanel>
-        </TabContext>
+          </Box>
+        )}
       </Box>
     </Modal>
   )
@@ -149,8 +244,7 @@ const CreateEditCard = ({ id, action, tab, data = {} }) => {
 
 CreateEditCard.propTypes = {
   id: PropTypes.string,
-  action: PropTypes.string.isRequired,
-  tab: PropTypes.string,
+  data: PropTypes.object,
 }
 
 export default CreateEditCard

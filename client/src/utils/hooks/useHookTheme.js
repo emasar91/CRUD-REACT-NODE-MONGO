@@ -1,22 +1,28 @@
 import { createTheme } from '@mui/material/styles'
 
 const useHookTheme = (darkMode) => {
-  const theme = createTheme({
+  const themeLight = createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light',
+      mode: 'light',
       primary: {
         main: '#009688',
       },
       secondary: {
         main: '#ffff00',
       },
-      background: {
-        app: darkMode
-          ? 'linear-gradient(90deg, #380036 0%, #0CBABA 100%)'
-          : 'linear-gradient(90deg, #0D324D 0%, #7F5A83 100%)',
+      app: {
+        background: 'linear-gradient(90deg, #014f5c 0%, #01ddf1 100%)',
+      },
+      searchBar: {
+        background: '#066178',
+      },
+      paper: '#FFFF',
+      text: { main: '#1E1E1E' },
+      appBar: {
+        background: '#02293d',
       },
       success: {
-        main: '#ff00ff',
+        main: '#066178',
       },
     },
     typography: {
@@ -35,7 +41,47 @@ const useHookTheme = (darkMode) => {
       snackbar: 1600,
     },
   })
-  return theme
+  const themeDark = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#009688',
+      },
+      secondary: {
+        main: '#ffff00',
+      },
+      app: {
+        background: 'linear-gradient(90deg, #014f5c 0%, #01ddf1 100%)',
+      },
+      searchBar: {
+        background: '#066178',
+      },
+      paper: '#1E1E1E',
+      text: { main: '#FFFF' },
+      appBar: {
+        background: '#02293d',
+      },
+      success: {
+        main: '#066178',
+      },
+    },
+    typography: {
+      fontSize: 13,
+      useNextVariants: true,
+      fontFamily: [
+        'NunitoSans',
+        'Roboto',
+        '"Helvetica Neue"',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    },
+    zIndex: {
+      snackbar: 1600,
+    },
+  })
+  return !darkMode ? themeLight : themeDark
 }
 
 export default useHookTheme

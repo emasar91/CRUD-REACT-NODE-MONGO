@@ -24,35 +24,38 @@ import { getValueCell } from './utilsCard'
 //hooks
 import useGetSpinner from '../../utils/hooks/useGetSpinner'
 
+const style = ({ palette }) => ({
+  root: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  paper: {
+    maxHeight: 600,
+    padding: 2.5,
+    overflowY: 'auto',
+    minWidth: 970,
+  },
+  tableContainer: {
+    height: 495,
+
+    '&::-webkit-scrollbar': {
+      width: '0.4em',
+    },
+    '&::-webkit-scrollbar-track': {
+      background: '#f1f1f1',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#888',
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+      background: '#555',
+    },
+  },
+})
+
 const Cards = ({ data, isLoading }) => {
-  const style = (theme) => ({
-    root: {
-      display: 'flex',
-      width: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    paper: { maxHeight: 600, padding: 2.5, overflowY: 'auto', minWidth: 970 },
-    tableContainer: {
-      height: 495,
-
-      '&::-webkit-scrollbar': {
-        width: '0.4em',
-      },
-      '&::-webkit-scrollbar-track': {
-        background: '#f1f1f1',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: '#888',
-      },
-      '&::-webkit-scrollbar-thumb:hover': {
-        background: '#555',
-      },
-    },
-  })
-
-  const showSpinner = useGetSpinner(isLoading)
-
   const columns = [
     {
       id: '_id',
@@ -104,6 +107,8 @@ const Cards = ({ data, isLoading }) => {
   ]
 
   const [card, setCard] = useState({})
+  const [cardToShow, setCardsToShow] = useState([])
+  const showSpinner = useGetSpinner(isLoading)
 
   /**
    * @param data value corresponding to the cell
@@ -133,9 +138,9 @@ const Cards = ({ data, isLoading }) => {
   }
 
   return (
-    <Box sx={(theme) => style(theme).root}>
+    <Box sx={({ palette }) => style(palette).root}>
       <Paper sx={(theme) => style(theme).paper}>
-        <SearchBar data={data} />
+        <SearchBar data={data} setCardsToShow={setCardsToShow} />
 
         <TableContainer sx={(theme) => style(theme).tableContainer}>
           {showSpinner ? (
@@ -148,7 +153,11 @@ const Cards = ({ data, isLoading }) => {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      sx={{ width: column.width, textAlign: column.align }}
+                      sx={{
+                        width: column.width,
+                        textAlign: column.align,
+                        backgroundColor: 'paper',
+                      }}
                     >
                       {column.label}
                     </TableCell>
@@ -156,7 +165,7 @@ const Cards = ({ data, isLoading }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data?.map((row) => {
+                {cardToShow.map((row) => {
                   return (
                     <TableRow hover role='checkbox' tabIndex={-1} key={row._id}>
                       {columns.map((column) => {
@@ -176,9 +185,7 @@ const Cards = ({ data, isLoading }) => {
         </TableContainer>
       </Paper>
       <DeleteModal id={card.id} />
-      {card.id && (
-        <CreateEditCard action='update' data={card} id={card.category} />
-      )}
+      <CreateEditCard data={card} id={card.category} />
     </Box>
   )
 }

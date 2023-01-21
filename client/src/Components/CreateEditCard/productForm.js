@@ -18,6 +18,7 @@ import IconButton from '@mui/material/IconButton'
 
 //icons
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import ReportGmailerrorredOutlinedIcon from '@mui/icons-material/ReportGmailerrorredOutlined'
 
 //hooks
 import useGetSpinner from '../../utils/hooks/useGetSpinner'
@@ -48,15 +49,16 @@ const ProductForm = ({
   onSubmit,
   onClose,
   isLoading,
-  data,
+  data = {},
   category,
   categories,
+  buttonLabel,
 }) => {
   const showSpinner = useGetSpinner(isLoading)
 
   const formik = useFormik({
     initialValues: {
-      id: data.id,
+      id: data.id || '',
       name: data.name || '',
       category: category || '',
       description: data.description || '',
@@ -66,6 +68,10 @@ const ProductForm = ({
       onSubmit(values)
     },
   })
+
+  const tooltipMessage = categories.length
+    ? 'body.createEditModal.buttons.info'
+    : 'body.createEditModal.buttons.alert'
 
   return (
     <Box sx={styles.container}>
@@ -83,6 +89,7 @@ const ProductForm = ({
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.touched.name && formik.errors.name}
+              disabled={!categories.length}
             />
           </Box>
 
@@ -99,6 +106,7 @@ const ProductForm = ({
                 name='category'
                 onChange={formik.handleChange}
                 value={formik.values.category}
+                disabled={!categories.length}
               >
                 {categories.map((category) => (
                   <MenuItem key={category._id} value={category._id}>
@@ -127,22 +135,30 @@ const ProductForm = ({
               helperText={
                 formik.touched.description && formik.errors.description
               }
+              disabled={!categories.length}
             />
           </Box>
           <Box sx={styles.buttonsContainer}>
             <IconButton>
               <Tooltip
                 placement='top-start'
-                title={
-                  <FormattedMessage id='body.createEditModal.buttons.info' />
-                }
+                title={<FormattedMessage id={tooltipMessage} />}
               >
-                <InfoOutlinedIcon />
+                {categories.length ? (
+                  <InfoOutlinedIcon />
+                ) : (
+                  <ReportGmailerrorredOutlinedIcon color='error' />
+                )}
               </Tooltip>
             </IconButton>
 
             <Box>
-              <Button size='medium' disabled={isLoading} onClick={onClose}>
+              <Button
+                size='medium'
+                disabled={isLoading}
+                onClick={onClose}
+                color='success'
+              >
                 <FormattedMessage id='body.createEditModal.buttons.cancel' />
               </Button>
 
@@ -150,8 +166,18 @@ const ProductForm = ({
                 loading={isLoading}
                 variant='contained'
                 type='submit'
+                disabled={!categories.length}
+                color='success'
               >
-                <FormattedMessage id={'body.createEditModal.buttons.update'} />
+                {buttonLabel !== 'add' ? (
+                  <FormattedMessage
+                    id={'body.createEditModal.buttons.update'}
+                  />
+                ) : (
+                  <FormattedMessage
+                    id={'body.createEditModal.buttons.create'}
+                  />
+                )}
               </LoadingButton>
             </Box>
           </Box>

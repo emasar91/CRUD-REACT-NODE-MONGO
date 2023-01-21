@@ -18,12 +18,12 @@ function useGetCategories(action, handleFetchingCards) {
           setIsLoadingCategories(false)
         })
     }
-  }, [action, handleFetchingCards])
+  }, [action])
 
   useEffect(() => {
     setIsLoadingCategories(true)
     getAllCategories()
-  }, [getAllCategories, action, handleFetchingCards])
+  }, [getAllCategories, action])
 
   return [isLoadingCategories, categories]
 }

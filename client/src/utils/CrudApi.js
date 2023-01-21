@@ -4,6 +4,12 @@ const apiV = 'v1'
 
 class CrudApi {
   //cards - products
+  static async addNewCard(newData) {
+    const res = await axios.post(`${endpoint}/${apiV}/card/`, newData)
+    const data = res.data
+    return data
+  }
+
   static async getAllCards() {
     const res = await axios.get(`${endpoint}/${apiV}/cards/`)
     const data = res.data
@@ -23,6 +29,12 @@ class CrudApi {
   }
 
   //categories
+  static async addNewCategory(newData) {
+    const res = await axios.post(`${endpoint}/${apiV}/category/`, newData)
+    const data = res.data
+    return data
+  }
+
   static async getAllCategories() {
     const res = await axios.get(`${endpoint}/${apiV}/categories/`)
     const data = res.data

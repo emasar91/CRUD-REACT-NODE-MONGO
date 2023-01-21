@@ -12,14 +12,15 @@ const style = (width, height) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+    color: 'inherit',
   },
 })
 
 const Spinner = ({ width, height }) => {
   return (
     <Box sx={() => style(width, height).container}>
-      <CircularProgress />
-      <Typography>
+      <CircularProgress color='success' />
+      <Typography sx={{ color: 'text.main' }}>
         <FormattedMessage id={`body.spinner.loading`} />
       </Typography>
     </Box>

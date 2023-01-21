@@ -13,7 +13,10 @@ import CustomizedSwitches from '../darkModeSelector'
 const CrudAppBar = ({ name, languageSelected }) => {
   return (
     <Box sx={{ height: 65 }}>
-      <AppBar position='static'>
+      <AppBar
+        position='static'
+        sx={{ backgroundColor: 'appBar.background', backgroundImage: 'none' }}
+      >
         <Toolbar>
           <Typography variant='h6' sx={{ flexGrow: 1 }}>
             <FormattedMessage id={name} />

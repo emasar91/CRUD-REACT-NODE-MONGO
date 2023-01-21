@@ -10,14 +10,18 @@ const style = {
     alignItems: 'center',
     boxShadow: 'none',
     justifyContent: 'space-between',
+    backgroundColor: 'searchBar.background',
+    backgroundImage: 'none',
   },
 }
 
-export default function CustomizedInputBase() {
+const SearchBar = ({ data, setCardsToShow }) => {
   return (
     <Paper component='form' sx={style.container}>
-      <SearchCard />
+      <SearchCard data={data} setCardsToShow={setCardsToShow} />
       <AddProductAndCategory />
     </Paper>
   )
 }
+
+export default SearchBar
