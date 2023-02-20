@@ -5,8 +5,6 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "cd ./client && npm i && npm run build && cd ..",
-    "build-local": "cd ./client && npm i && npm run build:local && cd ..",
     "local:server": "cross-env NODE_ENV=local nodemon server.js",
     "local:client": "cd ./client && cross-env NODE_ENV=local npm start",
     "local": "concurrently \"npm run local:server\" \"npm run local:client\"",
@@ -16,6 +14,9 @@
     "eslint-all": "eslint .",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
+  },
+  "engines": {
+    "node": "^14.20.*"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
