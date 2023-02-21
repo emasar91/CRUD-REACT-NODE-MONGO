@@ -3,7 +3,7 @@ import CrudApi from '../CrudApi'
 
 function useGetCards(fetchingCards) {
   const [cards, setCards] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const getAllCards = useCallback(() => {
     CrudApi.getAllCards()
